@@ -39,7 +39,7 @@ import static org.junit.Assert.assertTrue;
 
 public class GLRMTest extends TestUtil {
   public final double TOLERANCE = 1e-6;
-  @BeforeClass public static void setup() { stall_till_cloudsize(1); }
+  @BeforeClass public static void setup() { stall_till_cloudsize(3); }
 
   public double errStddev(double[] expected, double[] actual) {
     double err = 0;
@@ -401,7 +401,7 @@ public class GLRMTest extends TestUtil {
     try {
       Scope.enter();
       CreateFrame cf = new CreateFrame();
-      Random generator = new Random();
+      Random generator = new Random(cf.seed);
       int numRows = generator.nextInt(10000) + 50000;
       int numCols = generator.nextInt(17) + 3;
       cf.rows = numRows;
@@ -413,6 +413,7 @@ public class GLRMTest extends TestUtil {
       cf.positive_response = true;
       cf.missing_fraction = 0.1;
       cf.seed = System.currentTimeMillis();
+
       System.out.println("Createframe parameters: rows: " + numRows + " cols:" + numCols + " seed: " + cf.seed);
 
       Frame trainMultinomial = Scope.track(cf.execImpl().get());
